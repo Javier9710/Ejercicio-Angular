@@ -2,9 +2,9 @@ import{Component} from '@angular/core';
 
 @Component({
   selector: 'app-header',
-  templateUrl:'./header.component.html' 
+  templateUrl:'./header.component.html'
 
 })
 export class HeaderComponent{
-  title: string = 'App Angula y Spting';
+  title: string = 'App Angula y Spring';
 }
