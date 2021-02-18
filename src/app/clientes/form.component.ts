@@ -25,6 +25,7 @@ export class FormComponent implements OnInit {
   cargarCliente(): void{
     this.activatedRoute.params.subscribe(params => {
       let id = params['id']
+      console.log(id);
       if(id){
         this.clienteService.getCliente(id).subscribe((cliente)=>this.cliente=cliente);
         }
@@ -38,8 +39,19 @@ export class FormComponent implements OnInit {
     this.clienteService.create(this.cliente).subscribe(
       cliente =>{
       this.router.navigate(['/clientes'])
-      swal.fire('Cliente Creado', `Cliente ${cliente.nombre} credo con exito`, 'success')
+      swal.fire('Cliente Creado', `Cliente ${cliente.nombre} creado con exito`, 'success')
     });
+  }
+
+  public update():void{
+    this.clienteService.update(this.cliente)
+    .subscribe( cliente => {
+      this.router.navigate(['/clientes'])
+      swal.fire('Cliente Actualizado', `Cliente${cliente.nombre} actualizado con exito`, 'success');
+    }
+
+    )
+
   }
 
 

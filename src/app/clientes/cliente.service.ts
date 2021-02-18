@@ -12,7 +12,7 @@ import {map} from 'rxjs/operators';
 export class ClienteService {
 
   private urlEndPoint: string = 'http://localhost:8080/api/clientes';
-  private httpHeader = new HttpHeaders({'content-type': 'application/json'})
+  private httpHeaders = new HttpHeaders({'content-type': 'application/json'})
 
   constructor(private http: HttpClient) {
    }
@@ -27,11 +27,15 @@ export class ClienteService {
   }
 
   create(cliente:Cliente): Observable<Cliente>{
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeader});
+    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders});
   }
 
   getCliente(id): Observable<Cliente>{
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`);
 
+  }
+
+  update(cliente: Cliente): Observable<Cliente>{
+    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente , {headers: this.httpHeaders});
   }
 }
