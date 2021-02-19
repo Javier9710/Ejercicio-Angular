@@ -30,13 +30,19 @@ export class ClienteService {
   }
 
   create(cliente:Cliente): Observable<Cliente>{
-    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders});
+    return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        console.error(e.error.mensaje);
+        swal.fire('Error al crear el cliente', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
   }
 
   getCliente(id): Observable<Cliente>{
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
       catchError(e => {
-        this.router.navigate(['/clientes'])
+        this.router.navigate(['/clientes']);
         console.log(e.error.mensaje);
         swal.fire('Error al editar', e.error.mensaje, 'error');
         return throwError(e);
@@ -47,10 +53,22 @@ export class ClienteService {
   }
 
   update(cliente: Cliente): Observable<Cliente>{
-    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente , {headers: this.httpHeaders});
+    return this.http.put<Cliente>(`${this.urlEndPoint}/${cliente.id}`, cliente , {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        console.error(e.error.mensaje);
+        swal.fire('Error al Editar el cliente', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
   }
 
   delete(id: number): Observable<Cliente>{
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders});
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders}).pipe(
+      catchError(e => {
+        console.error(e.error.mensaje);
+        swal.fire('Error al Eliminar el cliente', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
   }
 }
