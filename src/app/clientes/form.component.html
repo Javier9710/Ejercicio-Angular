@@ -1,3 +1,8 @@
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+  <li *ngFor="let err of errores">
+  {{err}}
+  </li>
+</ul>
 <div class="card bg-dark text-white">
   <div class="card-header">{{titulo}}</div>
     <div class="card-body">
@@ -7,7 +12,7 @@
       <div class="form-group row">
         <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
         <div class="col-sm-6" >
-          <input class="form-control" [(ngModel)]="cliente.nombre" type="text" name="nombre" required minlength="4" #nombre="ngModel">
+          <input class="form-control" [(ngModel)]="cliente.nombre" type="text" name="nombre"  #nombre="ngModel"><!-- required minlength="4" -->
 
         <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched )">
           <div class="" *ngIf="nombre.errors.required">
@@ -25,7 +30,7 @@
       <div class="form-group row">
         <label for="apellido" class="col-form-label col-sm-2">Apellido</label>
         <div class="col-sm-6" >
-          <input class="form-control"[(ngModel)]="cliente.apellido" type="text" name="apellido" required #apellido="ngModel">
+          <input class="form-control"[(ngModel)]="cliente.apellido" type="text" name="apellido"  #apellido="ngModel">  <!--required-->
           <div class="alert alert-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched )">
             <div class="" *ngIf="apellido.errors.required">
               El Apellido es Requerido
@@ -38,7 +43,7 @@
       <div class="form-group row">
         <label for="email" class="col-form-label col-sm-2">Email</label>
         <div class="col-sm-6" >
-          <input class="form-control" [(ngModel)]="cliente.email" type="text" name="email" required email #email="ngModel">
+          <input class="form-control" [(ngModel)]="cliente.email" type="text" name="email" #email="ngModel"><!--required email-->
           <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched )">
             <div class="" *ngIf="email.errors.required">
               El Email es Requerido
