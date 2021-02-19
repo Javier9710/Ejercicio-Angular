@@ -11,6 +11,7 @@ export class FormComponent implements OnInit {
 
   public cliente:Cliente = new Cliente();
   public titulo: string = "Titulo del Cliente";
+  public errores: String[];
 
   constructor(
     private clienteService: ClienteService,
@@ -37,10 +38,17 @@ export class FormComponent implements OnInit {
 
   public create():void{
     this.clienteService.create(this.cliente).subscribe(
+
       json =>{
       this.router.navigate(['/clientes'])
       swal.fire('Cliente Creado', `${json.mensaje}: ${json.cliente.nombre}`, 'success')
-    });
+    },
+    err =>{
+      this.errores = err.error.errors as string[];
+      console.error('El codigo de error desde el backend es: ' + err.status);
+      console.error(err.error.errors);
+    }
+  );
   }
 
   public update():void{
@@ -48,6 +56,11 @@ export class FormComponent implements OnInit {
     .subscribe( json => {
       this.router.navigate(['/clientes'])
       swal.fire('Cliente Actualizado', `${json.mensaje}: ${json.cliente.nombre}`, 'success');
+    },
+    err =>{
+      this.errores = err.error.errors as string[];
+      console.error('El codigo de error desde el backend es: ' + err.status);
+      console.error(err.error.errors);
     }
 
     )
