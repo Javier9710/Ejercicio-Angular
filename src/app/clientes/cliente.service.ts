@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import {formatDate, DatePipe} from '@angular/common';
 import {CLIENTES} from './clientes.json';
 import {Cliente} from './cliente';
 import {of,Observable, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, catchError} from 'rxjs/operators';
 import swal from 'sweetalert2';
+
 
 import {Router} from '@angular/router';
 
@@ -22,11 +24,20 @@ export class ClienteService {
 
   getClientes():Observable<Cliente[]>{
     //return of(CLIENTES);
-  /*  return this.http.get(this.urlEndPoint).pipe(
-      map(response => response as Cliente[])
-    );*/
+    return this.http.get(this.urlEndPoint).pipe(
+      map(response =>{
+        let clientes = response as Cliente[];
 
-    return this.http.get<Cliente[]>(this.urlEndPoint);
+        return clientes.map(cliente => {
+          cliente.nombre= cliente.nombre.toLocaleUpperCase();
+          let datePipe = new DatePipe('en-US');
+          cliente.createAt = datePipe.transform(cliente.createAt,'dd/MM/yyyy'); //formatDate(cliente.createAt, 'dd-MM-yyyy', 'en-US');
+          return cliente;
+        });
+      }
+    )
+)
+  //  return this.http.get<Cliente[]>(this.urlEndPoint);
   }
 
   create(cliente:Cliente): Observable<any>{
