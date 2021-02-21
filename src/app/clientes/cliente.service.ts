@@ -6,7 +6,7 @@ import {CLIENTES} from './clientes.json';
 import {Cliente} from './cliente';
 import {of,Observable, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map, catchError} from 'rxjs/operators';
+import {map, catchError, tap} from 'rxjs/operators';
 import swal from 'sweetalert2';
 
 
@@ -27,6 +27,15 @@ export class ClienteService {
   getClientes():Observable<Cliente[]>{
     //return of(CLIENTES);
     return this.http.get(this.urlEndPoint).pipe(
+      tap(response => {
+        let clientes = response as Cliente[];
+        console.log('ClienteService: tap 1');
+        clientes.forEach(
+          cliente =>{
+            console.log(cliente.nombre);
+          }
+        )
+      }),
       map(response =>{
         let clientes = response as Cliente[];
 
@@ -38,8 +47,17 @@ export class ClienteService {
           return cliente;
         });
       }
+    ),
+      tap(response => {
+        console.log('ClienteService: tap 2');
+        response.forEach(
+          cliente =>{
+            console.log(cliente.nombre);
+          }
+        )
+      })
     )
-)
+
   //  return this.http.get<Cliente[]>(this.urlEndPoint);
   }
 
